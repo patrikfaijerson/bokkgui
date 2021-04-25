@@ -33,7 +33,11 @@
 
     </style>
 </head>
+
 <body>
+
+
+  
   <input type="hidden" id="productid" value="0" />
   <div class="container">
     <div class="row">
@@ -43,7 +47,23 @@
     </div>
     <div class="row" id="listForm">
         <div class="col-sm-6">
-            <table id="productTable"
+          
+          <table id="bookstoreTable"
+                   class="table table-bordered table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>Edit</th>
+                        <th>Id</th>
+                        <th>name</th>
+                        <th>address</th>
+                        <th>nr of books</th>
+                        <th>nr of shelves</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+            </table>
+          
+          <table id="productTable"
                    class="table table-bordered table-condensed table-striped">
                 <thead>
                     <tr>
@@ -133,6 +153,7 @@
       </div>
     </div>
   </div>
+  
   <script>
     $(document).ready(function () {
       productList();
@@ -262,11 +283,11 @@
 
       // Call Web API to get a list of Products
       $.ajax({
-          url: "http://bookapplication-env.eba-y2swc5kd.us-east-1.elasticbeanstalk.com/book/",
+          url: "http://bookstoreapplication-env.eba-tus7ikda.us-east-1.elasticbeanstalk.com/bookstore/",
         type: 'GET',
         dataType: 'json',
-        success: function (products) {
-          productListSuccess(products);
+        success: function (bookstores) {
+          bookstoreListSuccess(bookstores);
         },
         error: function (request, message, error) {
           handleException(request, message, error);
@@ -284,6 +305,17 @@
           handleException(request, message, error);
         }
       });
+      
+    }
+
+// Display all Products returned from Web API call
+function bookstoreListSuccess(bookstores) {
+      
+  // Iterate over the collection of data
+      $.each(bookstores, function (index, bookstore) {
+        // Add a row to the Product table
+        bookstoreAddRow(bookstore);
+      });
     }
 
     // Display all Products returned from Web API call
@@ -295,12 +327,23 @@
       });
     }
 
+// Add Product row to <table>
+  function bookstoreAddRow(bookstore) {
+      
+      // Append row to <table>
+      $("#bookstoreTable tbody").append(
+        bookstoreBuildTableRow(bookstore));
+    }
+
+
     // Add Product row to <table>
     function productAddRow(product) {
       // Append row to <table>
       $("#productTable tbody").append(
         productBuildTableRow(product));
     }
+
+
 
     // Build a <tr> for a row of table data
     function productBuildTableRow(product) {
@@ -326,6 +369,32 @@
                       "data-id='" + product.id + "'>" +
                       "<span class='glyphicon glyphicon-remove' />" +
               "</button>" +
+            "</td>" +
+          "</tr>";
+
+      return ret;
+      }
+
+
+// Build a <tr> for a row of table data
+  function bookstoreBuildTableRow(bookstore) {
+    var ret = "<tr>" +
+            "<td>" +
+              "<button type='button' " +
+                  "onclick='StartEdit(this);' " +
+                  "class='btn btn-default' " +
+                  "data-id='" + bookstore.id + "'>" +
+                  "<span class='glyphicon glyphicon-edit' />" +
+              "</button>" +
+            "</td>" +
+            "<td>" + bookstore.id + "</td>" +
+            "<td>" + bookstore.name + "</td>" +
+            "<td>" + bookstore.address + "</td>" +
+          "<td>" + bookstore.nrOfBooks + "</td>" +
+          "<td>" + bookstore.shelves + "</td>" +
+           
+            "<td>" +
+              
             "</td>" +
           "</tr>";
 
