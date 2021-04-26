@@ -44,29 +44,30 @@
       <div class="col-sm-6">
         <h2>Patriks Book GUI</h2>
       </div>
-    </div>
-    <div class="row" id="listForm">
-        <div class="col-sm-6">
-          
-          <table id="bookstoreTable"
+      <table id="bookstoreTable"
                    class="table table-bordered table-condensed table-striped">
-                <thead>
+                <tr>Information about bookstores (not possible to edit)</tr>
+                   <thead>
                     <tr>
-                        <th>Edit</th>
+                        
                         <th>Id</th>
                         <th>name</th>
                         <th>address</th>
                         <th>nr of books</th>
                         <th>nr of shelves</th>
-                        <th>Delete</th>
-                        
                     </tr>
                 </thead>
             </table>
+        </div>
+        <div class="col-sm-12">
           
+        </div>
+    <div class="row" id="listForm">
+        <div class="col-sm-12"> 
           <table id="productTable"
                    class="table table-bordered table-condensed table-striped">
-                <thead>
+                   <tr>Information about books</tr>
+                   <thead>
                     <tr>
                         <th>Edit</th>
                         <th>Id</th>
@@ -98,7 +99,7 @@
           
           <div class="panel-body">
             <div class="form-group">
-                <label for="isbn">
+                <label for="id">
                     ID
                 </label>
                 <input type="text" id="id"
@@ -151,6 +152,73 @@
             </div>
           </div>
         </div>
+
+<!--
+      <div class="row" id="editBookstoreForm">
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+              <h3 id="action">Edit bookstore</h3>
+          </div>
+          
+          <div class="panel-body">
+            <div class="form-group">
+                <label for="bookstoreid">
+                    ID
+                </label>
+                <input type="text" id="bookstoreid"
+                       class="form-control" readonly/>
+            </div>
+          <div class="panel-body">
+              <div class="form-group">
+                  <label for="bookstorename">
+                    bookstorename
+                  </label>
+                  <input type="text" id="bookstorename"
+                         class="form-control" />
+              </div>
+              <div class="form-group">
+                  <label for="bookstoreaddress">
+                    bookstoreaddress
+                  </label>
+                  <input type="text" id="bookstoreaddress"
+                         class="form-control" />
+              </div>
+              <div class="form-group">
+                  <label for="nrofbooks">
+                    nrofbooks
+                  </label>
+                  <input type="text" id="nrofbooks"
+                         class="form-control" />
+              </div>
+              <div class="form-group">
+                  <label for="nrofshelves">nrofshelves</label>
+                  <input type="text" id="nrofshelves"
+                         class="form-control" />
+              </div>
+            
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="button" 
+                            class="btn btn-primary"
+                            onclick="updateBookstoreCancelClick();">
+                        Cancel
+                    </button>
+
+                    <button type="button" id="updateButton"
+                            class="btn btn-primary"
+                            onclick="updateBookstoreClick();">
+                        Save
+                    </button>
+                </div>
+            </div>
+          </div>
+        </div>
+      -->
+
+
       </div>
     </div>
   </div>
@@ -191,9 +259,21 @@
           $("#title").val("");
           $("#bookstoreId").val("");
 
-         
+        
 
           $("#listForm").hide();
+
+      }
+
+      function addBookstoreClick() {
+          $("#updateButton").text("Add Bookstore");
+          $("#action").text("Add bookstore");
+          $("#editBookstoreForm").show();
+          $("#bookstoreid").val(0);
+          $("#bookstorename").val("");
+          $("#bookstoreaddress").val("");
+          $("#nrofbooks").val("");
+          $("#nrofshelves").val("");
 
       }
       
@@ -401,23 +481,13 @@ function bookstoreListSuccess(bookstores) {
 
    
    var ret = "<tr>" +
-            "<td>" +
-              "<button type='button' " +
-                  "onclick='StartEdit(this);' " +
-                  "class='btn btn-default' " +
-                  "data-id='" + bookstore.id + "'>" +
-                  "<span class='glyphicon glyphicon-edit' />" +
-              "</button>" +
-            "</td>" +
+            
             "<td>" + bookstore.id + "</td>" +
             "<td>" + bookstore.name + "</td>" +
             "<td>" + bookstore.address + "</td>" +
           "<td>" + bookstore.nrOfBooks + "</td>" +
-          "<td>" + bookstore.shelves + "</td>" +
-           
-            "<td>" +
-              
-            "</td>" +
+          "<td>" + bookstore.shelves + "</td>"    
+         +
           "</tr>";
 
       return ret;
