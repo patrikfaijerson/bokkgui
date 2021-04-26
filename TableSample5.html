@@ -59,6 +59,7 @@
                         <th>nr of books</th>
                         <th>nr of shelves</th>
                         <th>Delete</th>
+                        
                     </tr>
                 </thead>
             </table>
@@ -157,6 +158,7 @@
   <script>
     $(document).ready(function () {
       productList();
+      bookstoreList();
     });
 
     var awsUrlBook = "http://bookapplication-env.eba-y2swc5kd.us-east-1.elasticbeanstalk.com/book/";
@@ -282,17 +284,6 @@
 
 
       // Call Web API to get a list of Products
-      $.ajax({
-          url: "http://bookstoreapplication-env.eba-tus7ikda.us-east-1.elasticbeanstalk.com/bookstore/",
-        type: 'GET',
-        dataType: 'json',
-        success: function (bookstores) {
-          bookstoreListSuccess(bookstores);
-        },
-        error: function (request, message, error) {
-          handleException(request, message, error);
-        }
-      });
       
       $.ajax({
           url: "http://bookapplication-env.eba-y2swc5kd.us-east-1.elasticbeanstalk.com/book/",
@@ -307,6 +298,32 @@
       });
       
     }
+
+
+    function bookstoreList() {
+          $("#editForm").hide();
+          $("#listForm").show();
+
+          if ($("#bookstoreTable tbody").length == 0) {
+              $("#bookstoreTable").append("<tbody></tbody>");
+          }
+          $("#bookstoreTable tbody").empty();
+
+
+      // Call Web API to get a list of Products
+      $.ajax({
+          url: "http://bookstoreapplication-env.eba-tus7ikda.us-east-1.elasticbeanstalk.com/bookstore/",
+        type: 'GET',
+        dataType: 'json',
+        success: function (bookstores) {
+          bookstoreListSuccess(bookstores);
+        },
+        error: function (request, message, error) {
+          handleException(request, message, error);
+        }
+      });    
+    }
+
 
 // Display all Products returned from Web API call
 function bookstoreListSuccess(bookstores) {
@@ -378,7 +395,12 @@ function bookstoreListSuccess(bookstores) {
 
 // Build a <tr> for a row of table data
   function bookstoreBuildTableRow(bookstore) {
-    var ret = "<tr>" +
+   
+
+    
+
+   
+   var ret = "<tr>" +
             "<td>" +
               "<button type='button' " +
                   "onclick='StartEdit(this);' " +
